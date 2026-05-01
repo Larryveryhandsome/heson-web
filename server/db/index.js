@@ -3,7 +3,9 @@ const { DatabaseSync } = require('node:sqlite');
 const path = require('path');
 const fs = require('fs');
 
-const DB_PATH = path.join(__dirname, '..', 'data', 'heson.db');
+const DB_PATH = process.env.VERCEL
+  ? '/tmp/heson.db'
+  : path.join(__dirname, '..', 'data', 'heson.db');
 const SCHEMA_PATH = path.join(__dirname, 'schema.sql');
 
 // 確保 data 目錄存在
