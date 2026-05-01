@@ -1,0 +1,81 @@
+{
+  "name": "Payment",
+  "type": "object",
+  "properties": {
+    "booking_id": {
+      "type": "string",
+      "description": "\u95dc\u806f\u9810\u7d04 ID"
+    },
+    "client_id": {
+      "type": "string",
+      "description": "\u5ba2\u6236 ID"
+    },
+    "merchant_trade_no": {
+      "type": "string",
+      "description": "\u7da0\u754c\u7279\u5e97\u4ea4\u6613\u7de8\u865f"
+    },
+    "trade_no": {
+      "type": "string",
+      "description": "\u7da0\u754c\u4ea4\u6613\u7de8\u865f"
+    },
+    "amount": {
+      "type": "number",
+      "description": "\u4ea4\u6613\u91d1\u984d"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "\u5f85\u4ed8\u6b3e",
+        "\u5df2\u4ed8\u6b3e",
+        "\u5df2\u9000\u6b3e",
+        "\u4ed8\u6b3e\u5931\u6557"
+      ],
+      "description": "\u4ed8\u6b3e\u72c0\u614b"
+    },
+    "payment_type": {
+      "type": "string",
+      "description": "\u4ed8\u6b3e\u65b9\u5f0f"
+    },
+    "payment_date": {
+      "type": "string",
+      "description": "\u4ed8\u6b3e\u6642\u9593"
+    },
+    "item_name": {
+      "type": "string",
+      "description": "\u5546\u54c1\u540d\u7a31"
+    },
+    "ecpay_response": {
+      "type": "string",
+      "description": "\u7da0\u754c\u56de\u50b3\u539f\u59cb\u8cc7\u6599"
+    }
+  },
+  "required": [
+    "booking_id",
+    "amount"
+  ],
+  "rls": {
+    "create": {},
+    "read": {
+      "$or": [
+        {
+          "data.client_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

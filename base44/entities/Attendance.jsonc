@@ -1,0 +1,50 @@
+{
+  "name": "Attendance",
+  "type": "object",
+  "properties": {
+    "cleaner_id": {
+      "type": "string",
+      "description": "\u7ba1\u7406\u5e2b ID"
+    },
+    "cleaner_name": {
+      "type": "string",
+      "description": "\u7ba1\u7406\u5e2b\u59d3\u540d"
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "\u51fa\u52e4\u65e5\u671f"
+    },
+    "check_in": {
+      "type": "string",
+      "description": "\u7c3d\u5230\u6642\u9593 (HH:mm)"
+    },
+    "check_out": {
+      "type": "string",
+      "description": "\u7c3d\u9000\u6642\u9593 (HH:mm)"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "\u51fa\u52e4",
+        "\u8acb\u5047",
+        "\u9072\u5230",
+        "\u7f3a\u52e4"
+      ],
+      "description": "\u51fa\u52e4\u72c0\u614b"
+    },
+    "booking_id": {
+      "type": "string",
+      "description": "\u95dc\u806f\u9810\u7d04 ID"
+    },
+    "notes": {
+      "type": "string",
+      "description": "\u5099\u8a3b"
+    }
+  },
+  "required": [
+    "cleaner_id",
+    "date",
+    "status"
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "name": "CleanerApplication",
+  "type": "object",
+  "properties": {
+    "nickname": {
+      "type": "string",
+      "description": "\u66b1\u7a31/\u5de5\u4f5c\u540d\u7a31"
+    },
+    "phone": {
+      "type": "string",
+      "description": "\u806f\u7d61\u96fb\u8a71"
+    },
+    "line_id": {
+      "type": "string",
+      "description": "Line ID"
+    },
+    "email": {
+      "type": "string",
+      "description": "\u96fb\u5b50\u90f5\u4ef6"
+    },
+    "address": {
+      "type": "string",
+      "description": "\u5c45\u4f4f\u5730\u5740"
+    },
+    "experience_years": {
+      "type": "number",
+      "description": "\u5de5\u4f5c\u5e74\u8cc7"
+    },
+    "transportation": {
+      "type": "string",
+      "description": "\u4ea4\u901a\u5de5\u5177"
+    },
+    "pet_acceptance": {
+      "type": "boolean",
+      "description": "\u53ef\u63a5\u53d7\u5bf5\u7269\u5bb6\u5ead"
+    },
+    "has_own_tools": {
+      "type": "boolean",
+      "description": "\u81ea\u5099\u6e05\u6f54\u7528\u5177"
+    },
+    "available_days": {
+      "type": "string",
+      "description": "\u6bcf\u9031\u53ef\u5de5\u4f5c\u5929\u6578"
+    },
+    "available_times": {
+      "type": "string",
+      "description": "\u53ef\u5de5\u4f5c\u6642\u6bb5"
+    },
+    "expected_salary": {
+      "type": "string",
+      "description": "\u671f\u671b\u85aa\u8cc7"
+    },
+    "past_work": {
+      "type": "string",
+      "description": "\u904e\u53bb\u5de5\u4f5c\u7d93\u6b77"
+    },
+    "health_issues": {
+      "type": "string",
+      "description": "\u5065\u5eb7\u72c0\u6cc1\u5ba3\u544a"
+    },
+    "id_copy_url": {
+      "type": "string",
+      "description": "\u8eab\u5206\u8b49\u5f71\u672c URL"
+    },
+    "bank_copy_url": {
+      "type": "string",
+      "description": "\u9280\u884c\u5e33\u865f\u5f71\u672c URL"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "approved",
+        "rejected"
+      ],
+      "description": "\u7533\u8acb\u72c0\u614b"
+    }
+  },
+  "required": [
+    "nickname",
+    "phone",
+    "status"
+  ]
+}

@@ -1,0 +1,123 @@
+{
+  "name": "Booking",
+  "type": "object",
+  "properties": {
+    "client_id": {
+      "type": "string",
+      "description": "\u5ba2\u6236 ID"
+    },
+    "cleaner_id": {
+      "type": "string",
+      "description": "\u6307\u6d3e\u7684\u7ba1\u7406\u5e2b ID"
+    },
+    "service_type": {
+      "type": "string",
+      "enum": [
+        "\u57fa\u790e\u6708\u8b77-4\u6b21",
+        "\u9032\u968e\u6708\u5b89-8\u6b21",
+        "\u5c0a\u69ae\u6708\u6046-12\u6b21",
+        "\u55ae\u6b21\u6e05\u6f54"
+      ],
+      "description": "\u670d\u52d9\u985e\u578b"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "\u5f85\u78ba\u8a8d",
+        "\u5df2\u78ba\u8a8d",
+        "\u5df2\u5b8c\u6210",
+        "\u5df2\u53d6\u6d88"
+      ],
+      "description": "\u9810\u7d04\u72c0\u614b"
+    },
+    "scheduled_date": {
+      "type": "string",
+      "format": "date",
+      "description": "\u9810\u7d04\u65e5\u671f"
+    },
+    "time_slot": {
+      "type": "string",
+      "enum": [
+        "\u4e0a\u5348 08:00-12:00",
+        "\u4e0b\u5348 13:00-17:00",
+        "\u665a\u9593 18:00-21:00"
+      ],
+      "description": "\u6642\u6bb5"
+    },
+    "address": {
+      "type": "string",
+      "description": "\u670d\u52d9\u5730\u5740"
+    },
+    "phone": {
+      "type": "string",
+      "description": "\u806f\u7d61\u96fb\u8a71"
+    },
+    "notes": {
+      "type": "string",
+      "description": "\u5099\u8a3b"
+    },
+    "client_name": {
+      "type": "string",
+      "description": "\u5ba2\u6236\u59d3\u540d"
+    },
+    "cleaner_name": {
+      "type": "string",
+      "description": "\u7ba1\u7406\u5e2b\u59d3\u540d"
+    },
+    "confirmed_by_cleaner": {
+      "type": "boolean",
+      "description": "\u7ba1\u7406\u5e2b\u662f\u5426\u5df2\u78ba\u8a8d\u4e0a\u5de5"
+    }
+  },
+  "required": [
+    "client_id",
+    "service_type",
+    "scheduled_date",
+    "time_slot"
+  ],
+  "rls": {
+    "create": {},
+    "read": {
+      "$or": [
+        {
+          "data.client_id": "{{user.id}}"
+        },
+        {
+          "data.cleaner_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.client_id": "{{user.id}}"
+        },
+        {
+          "data.cleaner_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "data.client_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

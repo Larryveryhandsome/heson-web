@@ -1,0 +1,48 @@
+{
+  "name": "ServiceReport",
+  "type": "object",
+  "properties": {
+    "booking_id": {
+      "type": "string",
+      "description": "\u95dc\u806f\u7684\u9810\u7d04 ID"
+    },
+    "cleaner_id": {
+      "type": "string",
+      "description": "\u7ba1\u7406\u5e2b ID"
+    },
+    "before_photos": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "\u6e05\u6f54\u524d\u7167\u7247"
+    },
+    "after_photos": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "\u6e05\u6f54\u5f8c\u7167\u7247"
+    },
+    "cleaner_notes": {
+      "type": "string",
+      "description": "\u7ba1\u7406\u5e2b\u7559\u8a00"
+    },
+    "checklist_items": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "\u5df2\u5b8c\u6210\u670d\u52d9\u9805\u76ee"
+    },
+    "service_date": {
+      "type": "string",
+      "format": "date",
+      "description": "\u670d\u52d9\u65e5\u671f"
+    }
+  },
+  "required": [
+    "booking_id",
+    "cleaner_id"
+  ]
+}

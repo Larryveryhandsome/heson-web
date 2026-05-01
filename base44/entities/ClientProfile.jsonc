@@ -1,0 +1,90 @@
+{
+  "name": "ClientProfile",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "\u95dc\u806f\u7684\u7528\u6236 ID"
+    },
+    "phone": {
+      "type": "string",
+      "description": "\u806f\u7d61\u96fb\u8a71"
+    },
+    "address": {
+      "type": "string",
+      "description": "\u670d\u52d9\u5730\u5740"
+    },
+    "housing_type": {
+      "type": "string",
+      "enum": [
+        "\u900f\u5929",
+        "\u516c\u5bd3",
+        "\u5927\u6a13"
+      ],
+      "description": "\u623f\u5c4b\u985e\u578b"
+    },
+    "square_footage": {
+      "type": "number",
+      "description": "\u576a\u6578"
+    },
+    "family_members": {
+      "type": "string",
+      "description": "\u5bb6\u5ead\u6210\u54e1\u63cf\u8ff0"
+    },
+    "has_pets": {
+      "type": "boolean",
+      "description": "\u662f\u5426\u6709\u5bf5\u7269"
+    },
+    "subscription_plan": {
+      "type": "string",
+      "enum": [
+        "\u57fa\u790e\u6708\u8b77-4\u6b21",
+        "\u9032\u968e\u6708\u5b89-8\u6b21",
+        "\u5c0a\u69ae\u6708\u6046-12\u6b21",
+        "\u55ae\u6b21\u6e05\u6f54",
+        "\u7121"
+      ],
+      "description": "\u8a02\u95b1\u65b9\u6848"
+    },
+    "remaining_visits": {
+      "type": "number",
+      "description": "\u5269\u9918\u670d\u52d9\u6b21\u6578"
+    }
+  },
+  "required": [
+    "phone",
+    "address"
+  ],
+  "rls": {
+    "create": {},
+    "read": {
+      "$or": [
+        {
+          "data.user_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.user_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

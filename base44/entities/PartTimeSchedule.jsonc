@@ -1,0 +1,51 @@
+{
+  "name": "PartTimeSchedule",
+  "type": "object",
+  "properties": {
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "\u6392\u73ed\u65e5\u671f"
+    },
+    "time_slot": {
+      "type": "string",
+      "description": "\u6642\u6bb5\uff08\u5982 09:00-12:00\uff09"
+    },
+    "worker_name": {
+      "type": "string",
+      "description": "\u5de5\u8b80\u751f\u59d3\u540d"
+    },
+    "location": {
+      "type": "string",
+      "description": "\u5de5\u4f5c\u5730\u9ede"
+    },
+    "work_type": {
+      "type": "string",
+      "enum": [
+        "\u6e05\u6f54",
+        "\u6574\u7406",
+        "\u5176\u4ed6"
+      ],
+      "description": "\u5de5\u4f5c\u985e\u578b"
+    },
+    "notes": {
+      "type": "string",
+      "description": "\u5099\u8a3b"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "\u5df2\u6392\u73ed",
+        "\u5df2\u5b8c\u6210",
+        "\u5df2\u53d6\u6d88"
+      ],
+      "default": "\u5df2\u6392\u73ed",
+      "description": "\u72c0\u614b"
+    }
+  },
+  "required": [
+    "date",
+    "time_slot",
+    "worker_name"
+  ]
+}

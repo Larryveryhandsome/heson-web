@@ -1,0 +1,103 @@
+{
+  "name": "GoogleSheetLog",
+  "type": "object",
+  "properties": {
+    "spreadsheet_id": {
+      "type": "string",
+      "description": "Google \u8868\u683c ID"
+    },
+    "spreadsheet_name": {
+      "type": "string",
+      "description": "\u8a66\u7b97\u8868\u540d\u7a31"
+    },
+    "sheet_name": {
+      "type": "string",
+      "description": "\u5de5\u4f5c\u8868\u540d\u7a31"
+    },
+    "operation_type": {
+      "type": "string",
+      "enum": [
+        "ai_fill",
+        "manual_edit",
+        "rollback"
+      ],
+      "description": "\u64cd\u4f5c\u985e\u578b"
+    },
+    "data_filled": {
+      "type": "object",
+      "description": "\u586b\u5165\u7684\u8cc7\u6599\u5167\u5bb9"
+    },
+    "cells_affected": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "\u53d7\u5f71\u97ff\u7684\u5132\u5b58\u683c\u4f4d\u7f6e\uff08\u5982 A1, B2:B5\uff09"
+    },
+    "ai_prompt": {
+      "type": "string",
+      "description": "\u767c\u9001\u7d66 AI \u7684\u63d0\u793a\u6587\u672c"
+    },
+    "ai_response": {
+      "type": "string",
+      "description": "AI \u7684\u56de\u61c9\u5167\u5bb9"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "success",
+        "failed",
+        "pending_review"
+      ],
+      "description": "\u64cd\u4f5c\u72c0\u614b"
+    },
+    "error_message": {
+      "type": "string",
+      "description": "\u5982\u679c\u5931\u6557\uff0c\u8a18\u9304\u932f\u8aa4\u8a0a\u606f"
+    },
+    "approval_required": {
+      "type": "boolean",
+      "description": "\u662f\u5426\u9700\u8981\u4eba\u5de5\u5be9\u6838"
+    },
+    "approved_by": {
+      "type": "string",
+      "description": "\u6279\u51c6\u4eba\u7684\u96fb\u5b50\u90f5\u4ef6"
+    },
+    "approved_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "\u6279\u51c6\u6642\u9593"
+    },
+    "notes": {
+      "type": "string",
+      "description": "\u5099\u8a3b\u6216\u8aaa\u660e"
+    }
+  },
+  "required": [
+    "spreadsheet_id",
+    "operation_type",
+    "status"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

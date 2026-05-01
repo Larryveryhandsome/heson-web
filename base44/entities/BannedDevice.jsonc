@@ -1,0 +1,63 @@
+{
+  "name": "BannedDevice",
+  "type": "object",
+  "properties": {
+    "fingerprint": {
+      "type": "string",
+      "description": "\u88dd\u7f6e\u6307\u7d0b\uff08\u700f\u89bd\u5668\u7279\u5fb5\u96dc\u6e4a\uff09"
+    },
+    "reason": {
+      "type": "string",
+      "description": "\u5c01\u7981\u539f\u56e0"
+    },
+    "banned_by": {
+      "type": "string",
+      "description": "\u5c01\u7981\u64cd\u4f5c\u8005 email"
+    },
+    "associated_emails": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "\u66fe\u4f7f\u7528\u6b64\u88dd\u7f6e\u767b\u5165\u7684\u7528\u6236 email \u5217\u8868"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true,
+      "description": "\u662f\u5426\u4ecd\u5728\u5c01\u7981\u4e2d"
+    },
+    "user_agent": {
+      "type": "string",
+      "description": "\u88dd\u7f6e User-Agent"
+    },
+    "notes": {
+      "type": "string",
+      "description": "\u5099\u8a3b"
+    }
+  },
+  "required": [
+    "fingerprint"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

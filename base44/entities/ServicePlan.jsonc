@@ -1,0 +1,106 @@
+{
+  "name": "ServicePlan",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "\u7528\u6236 ID"
+    },
+    "plan_type": {
+      "type": "string",
+      "enum": [
+        "platform_dispatch",
+        "heson_direct"
+      ],
+      "description": "\u65b9\u6848\u985e\u578b\uff1a\u5e73\u53f0\u6d3e\u6848\u6216\u8d6b\u980c\u76f4\u71df"
+    },
+    "plan_name": {
+      "type": "string",
+      "description": "\u65b9\u6848\u540d\u7a31"
+    },
+    "plan_category": {
+      "type": "string",
+      "enum": [
+        "light",
+        "recurring",
+        "fine_cleaning",
+        "raw"
+      ],
+      "description": "\u65b9\u6848\u5206\u985e"
+    },
+    "price": {
+      "type": "number",
+      "description": "\u8cbb\u7528"
+    },
+    "details": {
+      "type": "object",
+      "description": "\u65b9\u6848\u8a73\u7d30\u8cc7\u8a0a"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "inactive",
+        "expired"
+      ],
+      "default": "active",
+      "description": "\u65b9\u6848\u72c0\u614b"
+    },
+    "start_date": {
+      "type": "string",
+      "format": "date",
+      "description": "\u958b\u59cb\u65e5\u671f"
+    },
+    "end_date": {
+      "type": "string",
+      "format": "date",
+      "description": "\u7d50\u675f\u65e5\u671f"
+    },
+    "remaining_hours": {
+      "type": "number",
+      "description": "\u5269\u9918\u670d\u52d9\u6642\u6578\uff08\u50c5\u9650\u5e73\u53f0\u6d3e\u6848\uff09"
+    },
+    "notes": {
+      "type": "string",
+      "description": "\u5099\u8a3b"
+    }
+  },
+  "required": [
+    "user_id",
+    "plan_type",
+    "plan_name",
+    "price"
+  ],
+  "rls": {
+    "create": {},
+    "read": {
+      "$or": [
+        {
+          "data.user_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.user_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

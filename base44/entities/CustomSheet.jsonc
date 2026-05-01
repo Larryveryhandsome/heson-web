@@ -1,0 +1,81 @@
+{
+  "name": "CustomSheet",
+  "type": "object",
+  "properties": {
+    "spreadsheet_id": {
+      "type": "string",
+      "description": "\u95dc\u806f\u7684\u8a66\u7b97\u8868 ID"
+    },
+    "data": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "description": "\u8a66\u7b97\u8868\u6578\u64da\uff08\u884c\u5217\u6578\u7d44\uff09"
+    },
+    "row_count": {
+      "type": "number",
+      "description": "\u884c\u6578"
+    },
+    "col_count": {
+      "type": "number",
+      "description": "\u5217\u6578"
+    },
+    "col_widths": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      },
+      "description": "\u5217\u5bec\u5ea6"
+    },
+    "row_heights": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      },
+      "description": "\u884c\u9ad8\u5ea6"
+    },
+    "cell_formats": {
+      "type": "object",
+      "description": "\u55ae\u5143\u683c\u683c\u5f0f\uff08key: 'row_col', value: {bg, color, bold, etc}\uff09"
+    },
+    "col_names": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "\u5217\u6a19\u984c\u540d\u7a31"
+    }
+  },
+  "required": [
+    "spreadsheet_id",
+    "data",
+    "row_count",
+    "col_count"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

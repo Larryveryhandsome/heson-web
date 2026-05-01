@@ -1,0 +1,37 @@
+# 環境變數（含 LINE token、JWT secret）
+.env
+.env.*
+
+# 依賴套件
+node_modules
+
+# 編譯輸出
+dist
+dist-ssr
+*.local
+
+# SQLite 資料庫（含客戶資料，不上傳）
+server/data/*.db
+server/data/*.db-wal
+server/data/*.db-shm
+
+# 上傳的檔案
+server/uploads/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Editor
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+Thumbs.db
+desktop.ini
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

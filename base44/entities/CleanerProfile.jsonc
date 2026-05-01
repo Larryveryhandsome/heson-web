@@ -1,0 +1,178 @@
+{
+  "name": "CleanerProfile",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "\u95dc\u806f\u7684\u7528\u6236 ID"
+    },
+    "name": {
+      "type": "string",
+      "description": "\u59d3\u540d\uff08\u540c\u8eab\u5206\u8b49\uff09"
+    },
+    "nickname": {
+      "type": "string",
+      "description": "\u66b1\u7a31\uff08\u7528\u65bc\u4ecb\u7d39\u5ba2\u6236\uff09"
+    },
+    "gender": {
+      "type": "string",
+      "enum": [
+        "\u7537",
+        "\u5973",
+        "\u5176\u4ed6"
+      ],
+      "description": "\u6027\u5225"
+    },
+    "age": {
+      "type": "number",
+      "description": "\u5e74\u9f61"
+    },
+    "phone": {
+      "type": "string",
+      "description": "\u806f\u7d61\u96fb\u8a71"
+    },
+    "line_id": {
+      "type": "string",
+      "description": "LINE ID\uff08\u65b9\u4fbf\u6d3e\u55ae\u901a\u77e5\uff09"
+    },
+    "residence_area": {
+      "type": "string",
+      "description": "\u5c45\u4f4f\u5730\u5340\uff08\u7e23\u5e02 + \u9109\u93ae/\u5e02\u5340\uff09"
+    },
+    "education": {
+      "type": "string",
+      "description": "\u6700\u9ad8\u5b78\u6b77"
+    },
+    "emergency_contact": {
+      "type": "string",
+      "description": "\u7dca\u6025\u806f\u7d61\u4eba\uff08\u59d3\u540d + \u95dc\u4fc2\uff09"
+    },
+    "emergency_phone": {
+      "type": "string",
+      "description": "\u7dca\u6025\u806f\u7d61\u4eba\u96fb\u8a71"
+    },
+    "experience_years": {
+      "type": "number",
+      "description": "\u5bb6\u4e8b\u7d93\u9a57\uff08\u5e74\u8cc7\uff09"
+    },
+    "service_types": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "\u53ef\u627f\u63a5\u7684\u670d\u52d9\u9805\u76ee"
+    },
+    "pet_acceptance": {
+      "type": "string",
+      "description": "\u5c0d\u65bc\u5bf5\u7269\u7684\u63a5\u53d7\u7a0b\u5ea6"
+    },
+    "has_own_tools": {
+      "type": "boolean",
+      "description": "\u662f\u5426\u81ea\u5099\u6e05\u6f54\u5de5\u5177"
+    },
+    "transportation": {
+      "type": "string",
+      "enum": [
+        "\u6a5f\u8eca",
+        "\u6c7d\u8eca",
+        "\u5927\u773e\u904b\u8f38"
+      ],
+      "description": "\u4ea4\u901a\u5de5\u5177"
+    },
+    "available_hours": {
+      "type": "string",
+      "description": "\u6bcf\u9031\u53ef\u914d\u5408\u7684\u6642\u6bb5"
+    },
+    "other_job": {
+      "type": "string",
+      "description": "\u76ee\u524d\u662f\u5426\u9084\u6709\u5176\u4ed6\u6b63\u8077/\u517c\u8077\u5de5\u4f5c"
+    },
+    "service_areas": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "\u5e0c\u671b\u7684\u63a5\u6848\u5730\u5340"
+    },
+    "expected_hourly_rate": {
+      "type": "number",
+      "description": "\u671f\u671b\u6642\u85aa"
+    },
+    "bank_name": {
+      "type": "string",
+      "description": "\u532f\u6b3e\u9280\u884c"
+    },
+    "bank_account": {
+      "type": "string",
+      "description": "\u532f\u6b3e\u5e33\u865f"
+    },
+    "bank_book_photo": {
+      "type": "string",
+      "description": "\u5b58\u647a\u6b63\u9762\u7167 URL"
+    },
+    "police_record_verified": {
+      "type": "boolean",
+      "description": "\u662f\u5426\u80fd\u63d0\u4f9b\u826f\u6c11\u8b49"
+    },
+    "id_card_front": {
+      "type": "string",
+      "description": "\u8eab\u5206\u8b49\u6b63\u9762\u7167 URL"
+    },
+    "id_card_back": {
+      "type": "string",
+      "description": "\u8eab\u5206\u8b49\u53cd\u9762\u7167 URL"
+    },
+    "id_verified": {
+      "type": "boolean",
+      "description": "\u8eab\u5206\u8b49\u662f\u5426\u5df2\u9a57\u8b49"
+    },
+    "is_active": {
+      "type": "boolean",
+      "description": "\u5e33\u865f\u662f\u5426\u555f\u7528"
+    },
+    "profile_photo": {
+      "type": "string",
+      "description": "\u500b\u4eba\u7167\u7247 URL"
+    }
+  },
+  "required": [
+    "nickname",
+    "phone"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "$or": [
+        {
+          "data.user_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.user_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

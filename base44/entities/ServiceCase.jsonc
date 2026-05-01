@@ -1,0 +1,103 @@
+{
+  "name": "ServiceCase",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "\u6848\u4f8b\u6a19\u984c"
+    },
+    "description": {
+      "type": "string",
+      "description": "\u6848\u4f8b\u63cf\u8ff0"
+    },
+    "service_type": {
+      "type": "string",
+      "description": "\u670d\u52d9\u985e\u578b"
+    },
+    "location": {
+      "type": "string",
+      "description": "\u670d\u52d9\u5730\u9ede"
+    },
+    "before_photos": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "\u670d\u52d9\u524d\u7167\u7247URL"
+    },
+    "after_photos": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "\u670d\u52d9\u5f8c\u7167\u7247URL"
+    },
+    "client_story": {
+      "type": "string",
+      "description": "\u5ba2\u6236\u6545\u4e8b/\u5c0d\u8a71\u5167\u5bb9"
+    },
+    "cleaner_notes": {
+      "type": "string",
+      "description": "\u6e05\u6f54\u5e2b\u7b46\u8a18"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "\u6a19\u7c64"
+    },
+    "featured": {
+      "type": "boolean",
+      "description": "\u662f\u5426\u70ba\u7cbe\u9078\u6848\u4f8b",
+      "default": false
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "published"
+      ],
+      "default": "draft",
+      "description": "\u767c\u5e03\u72c0\u614b"
+    },
+    "published_date": {
+      "type": "string",
+      "format": "date",
+      "description": "\u767c\u5e03\u65e5\u671f"
+    }
+  },
+  "required": [
+    "title",
+    "service_type"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "$or": [
+        {
+          "data.status": "published"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
