@@ -1,14 +1,15 @@
 {
   "version": 2,
+  "buildCommand": "npm ci && npm run build",
+  "outputDirectory": "dist",
   "functions": {
     "api/index.js": {
       "memory": 1024,
       "maxDuration": 30
     }
   },
-  "routes": [
-    { "src": "/api/(.*)", "dest": "/api/index.js" },
-    { "src": "/uploads/(.*)", "dest": "/api/index.js" },
-    { "src": "/((?!api/|uploads/).*)", "dest": "/index.html" }
+  "rewrites": [
+    { "source": "/api/:path*", "destination": "/api/index.js" },
+    { "source": "/((?!api/).*)", "destination": "/index.html" }
   ]
 }
