@@ -98,3 +98,54 @@ curl -X POST http://localhost:4001/api/auth/setup-admin \
 - `server/data/heson.db` 是 SQLite 資料庫，包含所有客戶與預約資料，請妥善保管
 - 資料庫已包含在此包中，直接使用即可
 - 如需重建前端：`npm run build`
+
+---
+
+## 雲端部署（Railway — 全球可訪問）
+
+Railway 可讓網站對外公開，並自動管理 HTTPS。
+
+### 前置條件
+- 帳號：https://railway.app（可用 GitHub 帳號登入）
+- 本專案已推送到 GitHub
+
+### 部署步驟
+
+**1. 建立新專案**
+- Railway Dashboard → New Project → Deploy from GitHub repo
+- 選擇 `heson-web` 這個 repo
+
+**2. 新增持久磁碟（SQLite 資料庫必需）**
+- 在 Railway 的服務設定 → Volumes
+- 新增 Volume：Mount Path 設為 `/app/server/data`
+- 這樣資料庫在每次重新部署後不會消失
+
+**3. 設定環境變數**
+在 Railway 服務 → Variables 頁面填入：
+```
+JWT_SECRET=（隨機字串，至少 32 字元）
+LINE_CHANNEL_ACCESS_TOKEN=
+LINE_CHANNEL_SECRET=
+LINE_CHANNEL_ID=
+LINE_CONTACT=
+```
+> PORT 不需要設定，Railway 自動提供
+
+**4. 觸發部署**
+- Railway 會自動執行 `railway.toml` 的 build 與 start 指令
+- 部署完成後，Railway 提供一個 `https://xxx.railway.app` 網址
+
+**5. 更新 LINE Webhook URL**
+- 至 LINE Developers Console → Messaging API → Webhook URL
+- 填入：`https://你的網址.railway.app/api/line/webhook`
+
+**6. 建立管理員帳號（僅首次）**
+```bash
+curl -X POST https://你的網址.railway.app/api/auth/setup-admin \
+  -H "Content-Type: application/json" \
+  -d "{\"email\":\"admin@example.com\",\"password\":\"your-password\",\"full_name\":\"管理員\"}"
+```
+
+**7. 自訂網域（選用）**
+- Railway 服務 → Settings → Domains → Add Custom Domain
+- 在你的 DNS 服務商設定 CNAME 指向 Railway 提供的值

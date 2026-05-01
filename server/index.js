@@ -86,8 +86,9 @@ if (fs.existsSync(DIST_DIR)) {
 // ────────────────────────────────────
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`\n✅ HESON 伺服器啟動`);
-  console.log(`   本機：     http://localhost:${PORT}`);
-  console.log(`   區網：     http://192.168.0.185:${PORT}`);
-  console.log(`   Tailscale：http://100.99.26.30:${PORT} (夥伴用這個)`);
-  console.log(`   公網：     http://61.220.214.118:${PORT} (需在路由器設定 Port Forwarding)\n`);
+  console.log(`   http://localhost:${PORT}`);
+  if (process.env.RAILWAY_PUBLIC_DOMAIN) {
+    console.log(`   公網：https://${process.env.RAILWAY_PUBLIC_DOMAIN}`);
+  }
+  console.log('');
 });
