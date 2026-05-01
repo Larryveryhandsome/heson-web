@@ -11,18 +11,23 @@
 
 ### 1. 安裝依賴套件
 ```bash
-cd heson-main
+cd heson-web
 npm install
+cd server && npm install && cd ..
 ```
 
 ### 2. 設定環境變數
-編輯 `server/.env`，確認以下欄位：
+```bash
+cp server/.env.example server/.env
 ```
-JWT_SECRET=（保持原值，或換新的隨機字串）
+開啟 `server/.env` 填入以下欄位：
+```
+JWT_SECRET=（任意隨機字串，至少 32 字元）
+PORT=4001
 LINE_CHANNEL_ACCESS_TOKEN=（LINE Bot Token）
 LINE_CHANNEL_SECRET=（LINE Bot Secret）
-LINE_CONTACT=0906991023
-PORT=4001
+LINE_CHANNEL_ID=（LINE Bot Channel ID）
+LINE_CONTACT=（聯絡電話）
 ```
 
 ### 3. 設定 ngrok
@@ -49,15 +54,41 @@ ngrok start heson
 node server/index.js
 ```
 
-### 5. 開機自動啟動（選用）
+### 5. 建立第一個管理員帳號
+
+伺服器啟動後，在**空白資料庫**第一次設定時，執行以下指令建立 admin：
+
+```bash
+curl -X POST http://localhost:4001/api/auth/setup-admin \
+  -H "Content-Type: application/json" \
+  -d "{\"email\":\"admin@example.com\",\"password\":\"your-password\",\"full_name\":\"管理員\"}"
+```
+
+> ⚠️ 此 API 只有在資料庫中**完全沒有 admin 帳號**時才能使用，之後自動鎖定。
+
+### 6. 開機自動啟動（選用）
 將 `heson-startup.vbs` 複製到：
 `C:\Users\<使用者>\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\`
 
 ---
 
+## 首次安裝 checklist
+
+- [ ] `npm install`（根目錄）
+- [ ] `cd server && npm install`
+- [ ] 建立 `server/.env`（參考 `server/.env.example`）
+- [ ] 設定 ngrok authtoken 與靜態網域
+- [ ] 更新 LINE Webhook URL
+- [ ] 啟動 ngrok + `node server/index.js`
+- [ ] 呼叫 `POST /api/auth/setup-admin` 建立管理員帳號
+- [ ] 登入 `http://localhost:4001` 確認前台正常
+- [ ] 登入 `http://localhost:4001/AdminDashboard` 確認後台正常
+
+---
+
 ## 帳號資訊
-- 管理員帳號：請使用平台內建的 admin 帳號登入
-- 預設 admin 帳號：請洽原始管理員
+- 管理員帳號：首次安裝請用 `POST /api/auth/setup-admin` 建立（見步驟 5）
+- 之後登入：`http://localhost:4001/Login`
 
 ## 網站路徑
 - 前台：`http://localhost:4001`
