@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: heson-web
+    env: node
+    nodeVersion: 22.x
+    buildCommand: npm ci && npm run build && cd server && npm ci
+    startCommand: node server/index.js
+    healthCheckPath: /api/health
+    envVars:
+      - key: JWT_SECRET
+        generateValue: true
+      - key: NODE_ENV
+        value: production
+      - key: LINE_CHANNEL_ACCESS_TOKEN
+        value: ""
+      - key: LINE_CHANNEL_SECRET
+        value: ""
+      - key: LINE_CHANNEL_ID
+        value: ""
+      - key: LINE_CONTACT
+        value: ""
