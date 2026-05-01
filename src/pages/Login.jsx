@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
 import { useAuth } from '@/lib/AuthContext';
+import { GoogleLogin } from '@react-oauth/google';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -16,6 +17,31 @@ export default function Login() {
   const [error, setError] = useState('');
 
   const redirect = searchParams.get('redirect') || '/';
+  const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+
+  const doRedirect = (role) => {
+    let target = decodeURIComponent(redirect);
+    if (target === '/') {
+      if (role === 'admin') target = '/AdminDashboard';
+      else if (role === 'cleaner') target = '/CleanerJobs';
+      else target = '/ClientDashboard';
+    }
+    navigate(target, { replace: true });
+  };
+
+  const handleGoogleSuccess = async (credentialResponse) => {
+    setError('');
+    setLoading(true);
+    try {
+      const userData = await base44.auth.googleLogin(credentialResponse.credential);
+      await checkAppState();
+      doRedirect(userData?.role);
+    } catch (err) {
+      setError(err.message || 'Google 登入失敗');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -33,14 +59,7 @@ export default function Login() {
       await checkAppState();
 
       // 角色導向：若 redirect 是根目錄，依角色跳轉到對應首頁
-      let target = decodeURIComponent(redirect);
-      if (target === '/') {
-        const role = userData?.role;
-        if (role === 'admin') target = '/AdminDashboard';
-        else if (role === 'cleaner') target = '/CleanerJobs';
-        else target = '/ClientDashboard';
-      }
-      navigate(target, { replace: true });
+      doRedirect(userData?.role);
     } catch (err) {
       setError(err.message || '操作失敗，請再試一次');
     } finally {
@@ -138,6 +157,26 @@ export default function Login() {
             {loading ? '處理中...' : mode === 'login' ? '登入' : mode === 'register' ? '建立帳號' : '建立管理員'}
           </button>
         </form>
+
+        {googleClientId && mode === 'login' && (
+          <div className="mt-4">
+            <div className="flex items-center gap-3 my-4">
+              <div className="flex-1 h-px bg-stone-200" />
+              <span className="text-xs text-stone-400">或</span>
+              <div className="flex-1 h-px bg-stone-200" />
+            </div>
+            <div className="flex justify-center">
+              <GoogleLogin
+                onSuccess={handleGoogleSuccess}
+                onError={() => setError('Google 登入失敗，請稍後再試')}
+                text="continue_with"
+                shape="rectangular"
+                locale="zh-TW"
+                width="368"
+              />
+            </div>
+          </div>
+        )}
 
         <p className="text-center text-xs text-stone-400 mt-6">
           © {new Date().getFullYear()} HESON 赫頌家事管理

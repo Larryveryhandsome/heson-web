@@ -100,6 +100,16 @@ const auth = {
     return data.user;
   },
 
+  // Google 登入（同 email 自動合併帳號）
+  async googleLogin(credential) {
+    const data = await apiFetch('/auth/google', {
+      method: 'POST',
+      body: JSON.stringify({ credential }),
+    });
+    setToken(data.token);
+    return data.user;
+  },
+
   setToken,
   getToken,
 };

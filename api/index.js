@@ -99,6 +99,26 @@ app.put('/api/auth/users/:id/role', requireAuth, (req, res) => {
   res.json({ ok: true });
 });
 
+app.post('/api/auth/google', async (req, res) => {
+  const { credential } = req.body;
+  if (!credential) return res.status(400).json({ error: '缺少 Google token' });
+  try {
+    const gRes = await fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${credential}`);
+    const info = await gRes.json();
+    if (!info.email || info.error_description) return res.status(401).json({ error: 'Google 驗證失敗' });
+    const email = info.email.toLowerCase();
+    let user = users.find(u => u.email === email);
+    if (!user) {
+      user = { id: uuidv4(), email, password_hash: null, full_name: info.name || '', role: 'user', created_at: new Date().toISOString() };
+      users.push(user);
+    }
+    const { password_hash, ...safe } = user;
+    res.json({ token: makeToken(user), user: safe });
+  } catch (e) {
+    res.status(500).json({ error: 'Google 登入失敗' });
+  }
+});
+
 app.post('/api/auth/setup-admin', async (req, res) => {
   if (users.some(u => u.role === 'admin')) return res.status(403).json({ error: '已有管理員帳號' });
   const { email, password, full_name } = req.body;
