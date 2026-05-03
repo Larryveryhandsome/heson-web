@@ -23,7 +23,8 @@ import ServiceCaseManager from './pages/ServiceCaseManager'
 import InternalSpreadsheet from './pages/InternalSpreadsheet'
 import AdminAI from './pages/AdminAI'
 import PartTimeSchedule from './pages/PartTimeSchedule'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, HashRouter, Route, Routes } from 'react-router-dom';
+const Router = import.meta.env.VITE_HASH_ROUTER === 'true' ? HashRouter : BrowserRouter;
 import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';

@@ -3,7 +3,7 @@
  * 介面完全相容原本的 Base44 SDK，頁面元件不需要修改
  */
 
-const API_BASE = import.meta.env.VITE_API_BASE || '/api';
+const API_BASE = import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE || '/api';
 const TOKEN_KEY = 'heson_token';
 
 function getToken() {
