@@ -1,3 +1,4 @@
+import React from 'react'
 import { Toaster } from "@/components/ui/toaster"
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClientInstance } from '@/lib/query-client'
@@ -30,6 +31,28 @@ import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import Login from './pages/Login';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+
+class ErrorBoundary extends React.Component {
+  constructor(props) { super(props); this.state = { error: null }; }
+  static getDerivedStateFromError(error) { return { error }; }
+  render() {
+    if (this.state.error) {
+      return (
+        <div style={{ padding: '2rem', fontFamily: 'sans-serif', textAlign: 'center' }}>
+          <h1 style={{ color: '#c0392b' }}>載入錯誤</h1>
+          <p style={{ color: '#555' }}>網頁發生錯誤，請重新整理或聯絡管理員。</p>
+          <pre style={{ background: '#f5f5f5', padding: '1rem', borderRadius: '8px', fontSize: '12px', textAlign: 'left', maxWidth: '600px', margin: '1rem auto', overflow: 'auto' }}>
+            {String(this.state.error)}
+          </pre>
+          <button onClick={() => window.location.reload()} style={{ marginTop: '1rem', padding: '0.5rem 1.5rem', background: '#2c3e50', color: '#fff', border: 'none', borderRadius: '6px', cursor: 'pointer' }}>
+            重新整理
+          </button>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
 
 const { Pages, Layout, mainPage } = pagesConfig;
 const mainPageKey = mainPage ?? Object.keys(Pages)[0];
@@ -118,9 +141,11 @@ function App() {
     </AuthProvider>
   );
 
-  return googleClientId
+  const wrapped = googleClientId
     ? <GoogleOAuthProvider clientId={googleClientId}>{inner}</GoogleOAuthProvider>
     : inner;
+
+  return <ErrorBoundary>{wrapped}</ErrorBoundary>;
 }
 
 export default App
