@@ -1,0 +1,9 @@
+{
+  "name": "HESON 赫頌家事管理",
+  "short_name": "HESON",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fffbeb",
+  "theme_color": "#d97706",
+  "icons": []
+}

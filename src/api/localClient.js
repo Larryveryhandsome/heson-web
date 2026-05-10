@@ -3,7 +3,7 @@
  * 介面完全相容原本的 Base44 SDK，頁面元件不需要修改
  */
 
-const API_BASE = import.meta.env.VITE_API_BASE || '/api';
+const API_BASE = import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE || '/api';
 const TOKEN_KEY = 'heson_token';
 
 function getToken() {
@@ -95,6 +95,16 @@ const auth = {
     const data = await apiFetch('/auth/setup-admin', {
       method: 'POST',
       body: JSON.stringify({ email, password, full_name }),
+    });
+    setToken(data.token);
+    return data.user;
+  },
+
+  // Google 登入（同 email 自動合併帳號）
+  async googleLogin(credential) {
+    const data = await apiFetch('/auth/google', {
+      method: 'POST',
+      body: JSON.stringify({ credential }),
     });
     setToken(data.token);
     return data.user;

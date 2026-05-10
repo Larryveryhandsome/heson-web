@@ -23,11 +23,13 @@ import ServiceCaseManager from './pages/ServiceCaseManager'
 import InternalSpreadsheet from './pages/InternalSpreadsheet'
 import AdminAI from './pages/AdminAI'
 import PartTimeSchedule from './pages/PartTimeSchedule'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, HashRouter, Route, Routes } from 'react-router-dom';
+const Router = import.meta.env.VITE_HASH_ROUTER === 'true' ? HashRouter : BrowserRouter;
 import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import Login from './pages/Login';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const { Pages, Layout, mainPage } = pagesConfig;
 const mainPageKey = mainPage ?? Object.keys(Pages)[0];
@@ -40,7 +42,6 @@ const LayoutWrapper = ({ children, currentPageName }) => Layout ?
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin, isAuthenticated, appPublicSettings } = useAuth();
 
-  // Show loading spinner while checking app public settings or auth
   if (isLoadingPublicSettings) {
     return (
       <div className="fixed inset-0 flex items-center justify-center">
@@ -49,10 +50,8 @@ const AuthenticatedApp = () => {
     );
   }
 
-  // Check if app is public
   const isAppPublic = appPublicSettings?.public_settings?.is_public === true;
 
-  // Handle authentication errors
   if (authError) {
     if (authError.type === 'user_not_registered') {
       return <UserNotRegisteredError />;
@@ -72,26 +71,11 @@ const AuthenticatedApp = () => {
     }
   }
 
-  // App is accessible to all visitors; login is only required for member-specific actions
-
-  // Render the main app
   return (
     <Routes>
-      <Route path="/" element={
-        <LayoutWrapper currentPageName={mainPageKey}>
-          <MainPage />
-        </LayoutWrapper>
-      } />
+      <Route path="/" element={<LayoutWrapper currentPageName={mainPageKey}><MainPage /></LayoutWrapper>} />
       {Object.entries(Pages).map(([path, Page]) => (
-        <Route
-          key={path}
-          path={`/${path}`}
-          element={
-            <LayoutWrapper currentPageName={path}>
-              <Page />
-            </LayoutWrapper>
-          }
-        />
+        <Route key={path} path={`/${path}`} element={<LayoutWrapper currentPageName={path}><Page /></LayoutWrapper>} />
       ))}
       <Route path="/AdminAttendance" element={<LayoutWrapper currentPageName="AdminAttendance"><AdminAttendance /></LayoutWrapper>} />
       <Route path="/MyBookings" element={<LayoutWrapper currentPageName="MyBookings"><MyBookings /></LayoutWrapper>} />
@@ -118,10 +102,10 @@ const AuthenticatedApp = () => {
   );
 };
 
-
 function App() {
+  const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
-  return (
+  const inner = (
     <AuthProvider>
       <QueryClientProvider client={queryClientInstance}>
         <Router>
@@ -132,7 +116,11 @@ function App() {
         <VisualEditAgent />
       </QueryClientProvider>
     </AuthProvider>
-  )
+  );
+
+  return googleClientId
+    ? <GoogleOAuthProvider clientId={googleClientId}>{inner}</GoogleOAuthProvider>
+    : inner;
 }
 
 export default App

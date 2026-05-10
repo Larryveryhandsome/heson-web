@@ -95,6 +95,27 @@ router.put('/users/:id/role', requireAuth, (req, res) => {
   res.json({ ok: true });
 });
 
+// Google 登入（同 email 自動合併帳號）
+router.post('/google', async (req, res) => {
+  const { credential } = req.body;
+  if (!credential) return res.status(400).json({ error: '缺少 Google token' });
+  try {
+    const gRes = await fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${credential}`);
+    const info = await gRes.json();
+    if (!info.email || info.error_description) return res.status(401).json({ error: 'Google 驗證失敗' });
+    const email = info.email.toLowerCase();
+    let user = db.prepare('SELECT id, email, role, full_name FROM users WHERE email = ?').get(email);
+    if (!user) {
+      const id = uuidv4();
+      db.prepare('INSERT INTO users (id, email, full_name, role) VALUES (?, ?, ?, ?)').run(id, email, info.name || '', 'user');
+      user = db.prepare('SELECT id, email, role, full_name FROM users WHERE id = ?').get(id);
+    }
+    res.json({ token: makeToken(user), user });
+  } catch {
+    res.status(500).json({ error: 'Google 登入失敗' });
+  }
+});
+
 // 建立第一個管理員（只有在沒有任何 admin 時才能用）
 router.post('/setup-admin', async (req, res) => {
   const adminCount = db.prepare("SELECT COUNT(*) as c FROM users WHERE role = 'admin'").get();
